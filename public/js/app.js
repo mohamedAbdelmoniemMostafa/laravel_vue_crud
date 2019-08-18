@@ -1878,11 +1878,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  // data:function(){
-  //   return{
-  //       modal:false
-  //   }
-  // },
+  data: function data() {
+    return {
+      modal: false
+    };
+  },
   props: {
     items: {
       type: Array
@@ -1904,12 +1904,18 @@ __webpack_require__.r(__webpack_exports__);
     },
     edit: function edit() {
       this.$emit('edit');
+      this.modal = false;
     }
   },
   mounted: function mounted() {
-    // this.modal=this.old_modal;
+    var _this = this;
+
+    this.modal = this.old_modal;
     this.$emit('getVueItems');
     console.log('Component mounted.');
+    $(document).on('hide.bs.modal', '#exampleModal', function () {
+      _this.modal = false;
+    });
   }
 });
 
@@ -37634,7 +37640,7 @@ var render = function() {
                     },
                     on: {
                       click: function($event) {
-                        _vm.old_modal = true
+                        _vm.modal = true
                         _vm.set(item.id, item.name, item.age, item.profession)
                       }
                     }
@@ -37673,7 +37679,7 @@ var render = function() {
       ]
     ),
     _vm._v(" "),
-    _vm.old_modal
+    _vm.modal
       ? _c(
           "div",
           {
@@ -37687,7 +37693,7 @@ var render = function() {
             },
             on: {
               close: function($event) {
-                _vm.old_modal = false
+                _vm.modal = false
               }
             }
           },
@@ -37836,7 +37842,7 @@ var render = function() {
                         attrs: { type: "button", "data-dismiss": "modal" },
                         on: {
                           click: function($event) {
-                            _vm.old_modal = false
+                            _vm.modal = false
                           }
                         }
                       },
@@ -50486,8 +50492,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! E:\Desktop\laravel5.5\vueCRUD\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! E:\Desktop\laravel5.5\vueCRUD\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /media/moniem/01D4E744C2A08880/Desktop/laravel5.5/vueCRUD/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /media/moniem/01D4E744C2A08880/Desktop/laravel5.5/vueCRUD/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

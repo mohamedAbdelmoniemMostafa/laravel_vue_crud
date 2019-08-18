@@ -17,7 +17,7 @@
                     <td>{{ item.age }}</td>
                     <td>{{ item.profession }}</td>
 
-                    <td id="show-modal" @click="old_modal=true; set(item.id, item.name, item.age, item.profession)" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                    <td id="show-modal" @click="modal=true; set(item.id, item.name, item.age, item.profession)" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                         <span class="fa fa-pencil" aria-hidden="true"></span>
                     </td>
                     <td @click.prevent="destroy(item)" class="btn btn-danger">
@@ -26,8 +26,8 @@
                 </tr>
             </table>
         </div>
-
-        <div v-if="old_modal" @close="old_modal=false" class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <!--<edit_form v-on:edit="edit()" :modal="old_modal"></edit_form>-->
+        <div v-if="modal" @close="modal=false" class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -47,7 +47,7 @@
                                            required  :value="this.e_profession" @keyup.enter="edit()">
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="old_modal=false">Cancel</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="modal=false">Cancel</button>
                         <button type="button" class="btn btn-primary" @click="edit()">Update</button>
                     </div>
                 </div>
@@ -60,11 +60,11 @@
 
 <script>
     export default {
-        // data:function(){
-        //   return{
-        //       modal:false
-        //   }
-        // },
+        data:function(){
+          return{
+              modal:false
+          }
+        },
         props:{
             items:{type:Array},
             old_modal:{type:Boolean}
@@ -81,14 +81,20 @@
                 this.e_profession = val_profession;
             },
             edit:function () {
-                this.$emit('edit')
+                this.$emit('edit');
+                this.modal = false;
             },
 
         },
         mounted() {
-            // this.modal=this.old_modal;
+            var _this = this;
+            this.modal=this.old_modal;
             this.$emit('getVueItems');
             console.log('Component mounted.')
+            $(document).on('hide.bs.modal','#exampleModal', function () {
+                _this.modal=false;
+            })
         }
     }
+
 </script>
