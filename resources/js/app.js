@@ -33,13 +33,10 @@ Vue.component('edit_form', require('./components/EditForm.vue').default);
 
 const app = new Vue({
     el: '#vue-crud-wrapper',
-    // props: ['items','hasError',newItem,'showModal','alert'],
     data:{
         items:[],
         hasError:true,
         newItem:{'name':'','age':'','profession':''},
-        showModal:false,
-        alert:''
     },
     methods:{
         create:function () {
@@ -49,10 +46,7 @@ const app = new Vue({
                 Swal.fire({
                     type: 'error',
                     title: 'Please fill all fields!',
-                    // text: 'Something went wrong!',
-                    // footer: '<a href>Why do I have this issue?</a>'
                 });
-                // this.hasError = false;
             }else{
                 this.hasError = true;
                 axios.post('/vueitems',input).then(function (response) {
@@ -74,12 +68,6 @@ const app = new Vue({
                 _this.items = response.data;
             });
         },
-        // set:function(val_id, val_name, val_age, val_profession) {
-        //     this.e_id = val_id;
-        //     this.e_name = val_name;
-        //     this.e_age = val_age;
-        //     this.e_profession = val_profession;
-        // },
         edit: function(){
 
             var i_val = document.getElementById('e_id');
@@ -90,8 +78,7 @@ const app = new Vue({
             axios.post('/edititems/' + i_val.value, {val_1: n_val.value, val_2: a_val.value,val_3: p_val.value })
                 .then(response => {
                     this.getVueItems();
-                    this.showModal=false
-                    // this.alert = response.data;
+                    // this.showModal=false
                     $('body').removeClass('modal-open');
                     $('.modal-backdrop').remove();
 
@@ -108,7 +95,6 @@ const app = new Vue({
         },
         destroy: function(item) {
             var _this = this;
-            // alert(item.id);
             const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
                     confirmButton: 'btn btn-success ml-2',
@@ -125,9 +111,6 @@ const app = new Vue({
                 confirmButtonText: 'Yes, delete it!',
                 cancelButtonText: 'No, cancel!',
                 reverseButtons: true,
-
-                // style:'5px',
-                // padding:'5px',
             }).then((result) => {
                 if (result.value) {
                     axios.post('/vueitems/' + item.id).then(function (response) {

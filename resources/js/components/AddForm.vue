@@ -46,8 +46,7 @@
 
         },
         mounted() {
-            // this.$emit('getVueItems');
-            console.log('Component mounted.')
+            console.log('Add Component mounted.')
         }
     }
 </script>

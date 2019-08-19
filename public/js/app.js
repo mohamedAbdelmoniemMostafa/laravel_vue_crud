@@ -1745,8 +1745,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
-    // this.$emit('getVueItems');
-    console.log('Component mounted.');
+    console.log('Add Component mounted.');
   }
 });
 
@@ -1791,18 +1790,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      new_modal: false
+    };
+  },
   props: {
-    modal: {
+    pass_modal: {
       type: Boolean
+    },
+    item: {
+      type: Object
     }
   },
   methods: {
     edit: function edit() {
-      this.$emit('edit');
+      this.$emit('edit_form');
     }
   },
   mounted: function mounted() {
-    console.log('Component mounted.');
+    console.log('Edit Component mounted.');
   }
 });
 
@@ -1851,44 +1858,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      modal: false
+      modal: false,
+      itemList: {
+        'id': '',
+        'name': '',
+        'age': '',
+        'profession': ''
+      }
     };
   },
   props: {
     items: {
       type: Array
-    },
-    old_modal: {
-      type: Boolean
     }
   },
   methods: {
@@ -1896,11 +1880,15 @@ __webpack_require__.r(__webpack_exports__);
       this.$emit('destroy', item);
     },
     set: function set(val_id, val_name, val_age, val_profession) {
-      // this.$emit('set',val_id, val_name, val_age, val_profession);
       this.e_id = val_id;
       this.e_name = val_name;
       this.e_age = val_age;
-      this.e_profession = val_profession;
+      this.e_profession = val_profession; // this. itemList.splice(0, 1);
+
+      this.itemList.id = this.e_id;
+      this.itemList.name = this.e_name;
+      this.itemList.age = this.e_age;
+      this.itemList.profession = this.e_profession;
     },
     edit: function edit() {
       this.$emit('edit');
@@ -1910,12 +1898,10 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     var _this = this;
 
-    this.modal = this.old_modal;
-    this.$emit('getVueItems');
-    console.log('Component mounted.');
     $(document).on('hide.bs.modal', '#exampleModal', function () {
       _this.modal = false;
     });
+    console.log('Show Component mounted.');
   }
 });
 
@@ -37395,7 +37381,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm.modal
+  return _vm.pass_modal
     ? _c(
         "div",
         {
@@ -37409,7 +37395,7 @@ var render = function() {
           },
           on: {
             close: function($event) {
-              _vm.modal = false
+              _vm.new_modal = false
             }
           }
         },
@@ -37426,7 +37412,11 @@ var render = function() {
                       staticClass: "modal-title",
                       attrs: { id: "exampleModalLabel" }
                     },
-                    [_vm._v("update " + _vm._s(_vm.e_name) + " data")]
+                    [
+                      _vm._v("update "),
+                      _c("strong", [_vm._v(_vm._s(_vm.item.name))]),
+                      _vm._v(" data")
+                    ]
                   ),
                   _vm._v(" "),
                   _c(
@@ -37440,7 +37430,7 @@ var render = function() {
                       },
                       on: {
                         click: function($event) {
-                          _vm.modal = false
+                          _vm.new_modal = false
                         }
                       }
                     },
@@ -37462,7 +37452,7 @@ var render = function() {
                       name: "id",
                       required: ""
                     },
-                    domProps: { value: this.e_id }
+                    domProps: { value: _vm.item.id }
                   }),
                   _vm._v("\n                Name: "),
                   _c("input", {
@@ -37473,7 +37463,7 @@ var render = function() {
                       name: "name",
                       required: ""
                     },
-                    domProps: { value: this.e_name },
+                    domProps: { value: _vm.item.name },
                     on: {
                       keyup: function($event) {
                         if (
@@ -37501,7 +37491,7 @@ var render = function() {
                       name: "age",
                       required: ""
                     },
-                    domProps: { value: this.e_age },
+                    domProps: { value: _vm.item.age },
                     on: {
                       keyup: function($event) {
                         if (
@@ -37529,7 +37519,7 @@ var render = function() {
                       name: "profession",
                       required: ""
                     },
-                    domProps: { value: this.e_profession },
+                    domProps: { value: _vm.item.profession },
                     on: {
                       keyup: function($event) {
                         if (
@@ -37558,7 +37548,7 @@ var render = function() {
                       attrs: { type: "button", "data-dismiss": "modal" },
                       on: {
                         click: function($event) {
-                          _vm.showModal = false
+                          _vm.new_modal = false
                         }
                       }
                     },
@@ -37608,268 +37598,85 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c(
-      "div",
-      { staticClass: "table table-borderless", attrs: { id: "table1" } },
-      [
-        _c(
-          "table",
-          { staticClass: "table table-borderless", attrs: { id: "table" } },
-          [
-            _vm._m(0),
-            _vm._v(" "),
-            _vm._l(_vm.items, function(item) {
-              return _c("tr", [
-                _c("td", [_vm._v(_vm._s(item.id))]),
-                _vm._v(" "),
-                _c("td", [_vm._v(_vm._s(item.name))]),
-                _vm._v(" "),
-                _c("td", [_vm._v(_vm._s(item.age))]),
-                _vm._v(" "),
-                _c("td", [_vm._v(_vm._s(item.profession))]),
-                _vm._v(" "),
-                _c(
-                  "td",
-                  {
-                    staticClass: "btn btn-primary",
-                    attrs: {
-                      id: "show-modal",
-                      "data-toggle": "modal",
-                      "data-target": "#exampleModal"
+  return _c(
+    "div",
+    [
+      _c(
+        "div",
+        { staticClass: "table table-borderless", attrs: { id: "table1" } },
+        [
+          _c(
+            "table",
+            { staticClass: "table table-borderless", attrs: { id: "table" } },
+            [
+              _vm._m(0),
+              _vm._v(" "),
+              _vm._l(_vm.items, function(item) {
+                return _c("tr", [
+                  _c("td", [_vm._v(_vm._s(item.id))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(item.name))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(item.age))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(item.profession))]),
+                  _vm._v(" "),
+                  _c(
+                    "td",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: {
+                        "data-toggle": "modal",
+                        "data-target": "#exampleModal"
+                      },
+                      on: {
+                        click: function($event) {
+                          _vm.modal = true
+                          _vm.set(item.id, item.name, item.age, item.profession)
+                        }
+                      }
                     },
-                    on: {
-                      click: function($event) {
-                        _vm.modal = true
-                        _vm.set(item.id, item.name, item.age, item.profession)
-                      }
-                    }
-                  },
-                  [
-                    _c("span", {
-                      staticClass: "fa fa-pencil",
-                      attrs: { "aria-hidden": "true" }
-                    })
-                  ]
-                ),
-                _vm._v(" "),
-                _c(
-                  "td",
-                  {
-                    staticClass: "btn btn-danger",
-                    on: {
-                      click: function($event) {
-                        $event.preventDefault()
-                        return _vm.destroy(item)
-                      }
-                    }
-                  },
-                  [
-                    _c("span", {
-                      staticClass: "fa fa-trash",
-                      attrs: { "aria-hidden": "true" }
-                    })
-                  ]
-                )
-              ])
-            })
-          ],
-          2
-        )
-      ]
-    ),
-    _vm._v(" "),
-    _vm.modal
-      ? _c(
-          "div",
-          {
-            staticClass: "modal fade",
-            attrs: {
-              id: "exampleModal",
-              tabindex: "-1",
-              role: "dialog",
-              "aria-labelledby": "exampleModalLabel",
-              "aria-hidden": "true"
-            },
-            on: {
-              close: function($event) {
-                _vm.modal = false
-              }
-            }
-          },
-          [
-            _c(
-              "div",
-              { staticClass: "modal-dialog", attrs: { role: "document" } },
-              [
-                _c("div", { staticClass: "modal-content" }, [
-                  _c("div", { staticClass: "modal-header" }, [
-                    _c(
-                      "h5",
-                      {
-                        staticClass: "modal-title",
-                        attrs: { id: "exampleModalLabel" }
-                      },
-                      [_vm._v("update " + _vm._s(this.e_name) + " data")]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass: "close",
-                        attrs: {
-                          type: "button",
-                          "data-dismiss": "modal",
-                          "aria-label": "Close"
-                        },
-                        on: {
-                          click: function($event) {
-                            _vm.modal = false
-                          }
-                        }
-                      },
-                      [
-                        _c("span", { attrs: { "aria-hidden": "true" } }, [
-                          _vm._v("×")
-                        ])
-                      ]
-                    )
-                  ]),
+                    [
+                      _c("span", {
+                        staticClass: "fa fa-pencil",
+                        attrs: { "aria-hidden": "true" }
+                      })
+                    ]
+                  ),
                   _vm._v(" "),
-                  _c("div", { staticClass: "modal-body" }, [
-                    _c("input", {
-                      staticClass: "form-control",
-                      attrs: {
-                        type: "hidden",
-                        disabled: "",
-                        id: "e_id",
-                        name: "id",
-                        required: ""
-                      },
-                      domProps: { value: this.e_id }
-                    }),
-                    _vm._v("\n                    Name: "),
-                    _c("input", {
-                      staticClass: "form-control",
-                      attrs: {
-                        type: "text",
-                        id: "e_name",
-                        name: "name",
-                        required: ""
-                      },
-                      domProps: { value: this.e_name },
+                  _c(
+                    "td",
+                    {
+                      staticClass: "btn btn-danger",
                       on: {
-                        keyup: function($event) {
-                          if (
-                            !$event.type.indexOf("key") &&
-                            _vm._k(
-                              $event.keyCode,
-                              "enter",
-                              13,
-                              $event.key,
-                              "Enter"
-                            )
-                          ) {
-                            return null
-                          }
-                          return _vm.edit()
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.destroy(item)
                         }
                       }
-                    }),
-                    _vm._v("\n                    Age: "),
-                    _c("input", {
-                      staticClass: "form-control",
-                      attrs: {
-                        type: "number",
-                        id: "e_age",
-                        name: "age",
-                        required: ""
-                      },
-                      domProps: { value: this.e_age },
-                      on: {
-                        keyup: function($event) {
-                          if (
-                            !$event.type.indexOf("key") &&
-                            _vm._k(
-                              $event.keyCode,
-                              "enter",
-                              13,
-                              $event.key,
-                              "Enter"
-                            )
-                          ) {
-                            return null
-                          }
-                          return _vm.edit()
-                        }
-                      }
-                    }),
-                    _vm._v("\n                    Profession: "),
-                    _c("input", {
-                      staticClass: "form-control",
-                      attrs: {
-                        type: "text",
-                        id: "e_profession",
-                        name: "profession",
-                        required: ""
-                      },
-                      domProps: { value: this.e_profession },
-                      on: {
-                        keyup: function($event) {
-                          if (
-                            !$event.type.indexOf("key") &&
-                            _vm._k(
-                              $event.keyCode,
-                              "enter",
-                              13,
-                              $event.key,
-                              "Enter"
-                            )
-                          ) {
-                            return null
-                          }
-                          return _vm.edit()
-                        }
-                      }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "modal-footer" }, [
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-secondary",
-                        attrs: { type: "button", "data-dismiss": "modal" },
-                        on: {
-                          click: function($event) {
-                            _vm.modal = false
-                          }
-                        }
-                      },
-                      [_vm._v("Cancel")]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-primary",
-                        attrs: { type: "button" },
-                        on: {
-                          click: function($event) {
-                            return _vm.edit()
-                          }
-                        }
-                      },
-                      [_vm._v("Update")]
-                    )
-                  ])
+                    },
+                    [
+                      _c("span", {
+                        staticClass: "fa fa-trash",
+                        attrs: { "aria-hidden": "true" }
+                      })
+                    ]
+                  )
                 ])
-              ]
-            )
-          ]
-        )
-      : _vm._e()
-  ])
+              })
+            ],
+            2
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c("edit_form", {
+        attrs: { item: _vm.itemList, pass_modal: _vm.modal },
+        on: { edit_form: _vm.edit }
+      })
+    ],
+    1
+  )
 }
 var staticRenderFns = [
   function() {
@@ -50070,7 +49877,6 @@ Vue.component('edit_form', __webpack_require__(/*! ./components/EditForm.vue */ 
 
 var app = new Vue({
   el: '#vue-crud-wrapper',
-  // props: ['items','hasError',newItem,'showModal','alert'],
   data: {
     items: [],
     hasError: true,
@@ -50078,9 +49884,7 @@ var app = new Vue({
       'name': '',
       'age': '',
       'profession': ''
-    },
-    showModal: false,
-    alert: ''
+    }
   },
   methods: {
     create: function create() {
@@ -50091,10 +49895,8 @@ var app = new Vue({
       if (input['name'] == '' || input['age'] == '' || input['profession'] == '') {
         Swal.fire({
           type: 'error',
-          title: 'Please fill all fields!' // text: 'Something went wrong!',
-          // footer: '<a href>Why do I have this issue?</a>'
-
-        }); // this.hasError = false;
+          title: 'Please fill all fields!'
+        });
       } else {
         this.hasError = true;
         axios.post('/vueitems', input).then(function (response) {
@@ -50121,12 +49923,6 @@ var app = new Vue({
         _this.items = response.data;
       });
     },
-    // set:function(val_id, val_name, val_age, val_profession) {
-    //     this.e_id = val_id;
-    //     this.e_name = val_name;
-    //     this.e_age = val_age;
-    //     this.e_profession = val_profession;
-    // },
     edit: function edit() {
       var _this2 = this;
 
@@ -50139,9 +49935,8 @@ var app = new Vue({
         val_2: a_val.value,
         val_3: p_val.value
       }).then(function (response) {
-        _this2.getVueItems();
+        _this2.getVueItems(); // this.showModal=false
 
-        _this2.showModal = false; // this.alert = response.data;
 
         $('body').removeClass('modal-open');
         $('.modal-backdrop').remove();
@@ -50156,8 +49951,7 @@ var app = new Vue({
       });
     },
     destroy: function destroy(item) {
-      var _this = this; // alert(item.id);
-
+      var _this = this;
 
       var swalWithBootstrapButtons = Swal.mixin({
         customClass: {
@@ -50173,9 +49967,7 @@ var app = new Vue({
         showCancelButton: true,
         confirmButtonText: 'Yes, delete it!',
         cancelButtonText: 'No, cancel!',
-        reverseButtons: true // style:'5px',
-        // padding:'5px',
-
+        reverseButtons: true
       }).then(function (result) {
         if (result.value) {
           axios.post('/vueitems/' + item.id).then(function (response) {
