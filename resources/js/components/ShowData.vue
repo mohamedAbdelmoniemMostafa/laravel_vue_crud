@@ -11,8 +11,8 @@
                     <th>Actions</th>
                 </tr>
                 </thead>
-                <tr v-for="item in items">
-                    <td>{{ item.id }}</td>
+                <tr v-for="(item, index) in items">
+                    <td>{{ index+1 }}</td>
                     <td>{{ item.name }}</td>
                     <td>{{ item.age }}</td>
                     <td>{{ item.profession }}</td>

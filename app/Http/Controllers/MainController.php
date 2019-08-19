@@ -4,18 +4,30 @@ namespace App\Http\Controllers;
 
 use App\VueCrudData;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class MainController extends Controller
 {
 
     public function storeItem(Request $request) {
 //        dd($request->all());
+
+        $validator = Validator::make($request->all(), [
+            'name'  =>  'required',
+            'age'  =>  'required',
+            'profession'  =>  'required',
+        ]);
+
+        if ($validator->fails()) {
+           return json_encode(['error'=>$validator->errors()->first()]);
+        }
+
         $data = new VueCrudData();
         $data->name = $request->name;
         $data->age = $request->age;
         $data->profession = $request->profession;
         $data->save ();
-//        return $data;
+
         return 'Added Successfully !';
     }
 
@@ -27,10 +39,21 @@ class MainController extends Controller
 
     public function editItem(Request $request, $id){
 //        dd($request->all());
-        $data =VueCrudData::where('id', $id)->first();
-        $data->name = $request->get('val_1');
-        $data->age = $request->get('val_2');
-        $data->profession = $request->get('val_3');
+        $data =VueCrudData::find($id);
+
+        $validator = Validator::make($request->all(), [
+            'name'  =>  'required',
+            'age'  =>  'required',
+            'profession'  =>  'required',
+        ]);
+
+        if ($validator->fails()) {
+            return json_encode(['error'=>$validator->errors()->first()]);
+        }
+//        dd($request->all());
+        $data->name = $request->get('name');
+        $data->age = $request->get('age');
+        $data->profession = $request->get('profession');
         $data->save();
 //        return $data;
         return 'Updated Successfully !';
